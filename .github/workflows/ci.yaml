@@ -58,6 +58,22 @@ jobs:
           echo "suffix=$SUFFIX" >> $GITHUB_OUTPUT
           echo "Generated suffix: $SUFFIX"
 
+      - name: Debug - Check Environment Variables
+        run: |
+          echo "=== Checking Environment Variables ==="
+          echo "AWS_REGION: ${{ env.AWS_REGION }}"
+          echo "AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}"
+          echo "AWS_OIDC_ROLE_NAME: ${{ env.AWS_OIDC_ROLE_NAME }}"
+          echo "CFN_NESTED_TEMPLATES_S3_BUCKET_NAME: ${{ env.CFN_NESTED_TEMPLATES_S3_BUCKET_NAME }}"
+          echo ""
+          echo "=== Checking Input Values ==="
+          echo "environment: ${{ inputs.environment }}"
+          echo "aws-region: ${{ inputs.aws-region }}"
+          echo "aws-account-id: ${{ inputs.aws-account-id }}"
+          echo "oidc-role-name: ${{ inputs.oidc-role-name }}"
+          echo "cfn-templates-s3-bucket: ${{ inputs.cfn-templates-s3-bucket }}"
+          echo "stack-name: ${{ inputs.stack-name }}"
+
       - name: Print Inputs and CI Suffix to Summary
         if: vars.PRINT_DEBUG_INFO == 'true'
         run: |
@@ -93,10 +109,10 @@ jobs:
 
   deploy-cloudformation-stack:
     name: Deploy CloudFormation Stack
+    # environment: ${{ inputs.environment }}
     needs: generate-stack-suffix
     uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@feature/GHA-0016-upgrade-cfn-deploy-action
     with:
-      environment: ${{ inputs.environment }}
       concurrency-group: ${{ github.workflow }}-ci
       aws-region: ${{ inputs.aws-region }}
       aws-account-id: ${{ inputs.aws-account-id }}
@@ -108,10 +124,10 @@ jobs:
 
   delete-cloudformation-stack:
     name: Delete CloudFormation Stack
+    # environment: ${{ inputs.environment }}
     needs: [generate-stack-suffix, deploy-cloudformation-stack]
     uses: subhamay-bhattacharyya-gha/cfn-delete-wf/.github/workflows/cfn-delete.yaml@feature/GHA-0001-initial-release-cloudform
     with:
-      environment: ${{ inputs.environment }}
       concurrency-group: ${{ github.workflow }}-ci
       aws-region: ${{ inputs.aws-region }}
       aws-account-id: ${{ inputs.aws-account-id }}
