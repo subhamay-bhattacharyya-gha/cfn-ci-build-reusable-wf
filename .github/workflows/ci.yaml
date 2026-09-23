@@ -60,12 +60,6 @@ jobs:
 
       - name: Debug - Check Environment Variables
         run: |
-          echo "=== Checking Environment Variables ==="
-          echo "AWS_REGION: ${{ env.AWS_REGION }}"
-          echo "AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}"
-          echo "AWS_OIDC_ROLE_NAME: ${{ env.AWS_OIDC_ROLE_NAME }}"
-          echo "CFN_NESTED_TEMPLATES_S3_BUCKET_NAME: ${{ env.CFN_NESTED_TEMPLATES_S3_BUCKET_NAME }}"
-          echo ""
           echo "=== Checking Input Values ==="
           echo "environment: ${{ inputs.environment }}"
           echo "aws-region: ${{ inputs.aws-region }}"
