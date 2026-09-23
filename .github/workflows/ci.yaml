@@ -52,6 +52,33 @@ jobs:
           echo "suffix=$SUFFIX" >> $GITHUB_OUTPUT
           echo "Generated suffix: $SUFFIX"
 
+      - name: Print Inputs and CI Suffix to Summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🔍 CloudFormation CI Build - Debug Info
+
+          ### Workflow Inputs
+          | Parameter | Value |
+          |-----------|-------|
+          | AWS Region | ${{ inputs.aws-region }} |
+          | AWS Account ID | ${{ inputs.aws-account-id }} |
+          | OIDC Role Name | ${{ inputs.oidc-role-name }} |
+          | S3 Bucket | ${{ inputs.cfn-templates-s3-bucket }} |
+          | Stack Name (Base) | ${{ inputs.stack-name }} |
+          | Template File | ${{ inputs.template-file }} |
+          | Parameters File | ${{ inputs.parameters-file }} |
+
+          ### Generated CI Suffix
+          ```
+          ${{ steps.generate.outputs.suffix }}
+          ```
+
+          ### Final Stack Name
+          ```
+          ${{ inputs.stack-name }}-${{ steps.generate.outputs.suffix }}
+          ```
+          EOF
+
   deploy-cloudformation-stack:
     name: Deploy CloudFormation Stack
     needs: generate-stack-suffix
