@@ -106,11 +106,13 @@ jobs:
 
   deploy-cloudformation-stack:
     name: Deploy CloudFormation Stack
-    # environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
+    concurrency:
+      group: ${{ github.workflow }}-ci
+      cancel-in-progress: true
     needs: generate-stack-suffix
     uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@feature/GHA-0016-upgrade-cfn-deploy-action
     with:
-      concurrency-group: ${{ github.workflow }}-ci
       # aws-region: ${{ vars.AWS_REGION }}
       # aws-account-id: ${{ vars.AWS_ACCOUNT_ID }}
       # oidc-role-name: ${{ vars.AWS_OIDC_ROLE_NAME }}
@@ -121,11 +123,13 @@ jobs:
 
   delete-cloudformation-stack:
     name: Delete CloudFormation Stack
-    # environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
+    concurrency:
+      group: ${{ github.workflow }}-ci
+      cancel-in-progress: true
     needs: [generate-stack-suffix, deploy-cloudformation-stack]
     uses: subhamay-bhattacharyya-gha/cfn-delete-wf/.github/workflows/cfn-delete.yaml@feature/GHA-0001-initial-release-cloudform
     with:
-      concurrency-group: ${{ github.workflow }}-ci
       # aws-region: ${{ vars.AWS_REGION }}
       # aws-account-id: ${{ vars.AWS_ACCOUNT_ID }}
       # oidc-role-name: ${{ vars.AWS_OIDC_ROLE_NAME }}
