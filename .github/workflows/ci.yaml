@@ -53,6 +53,7 @@ jobs:
           echo "Generated suffix: $SUFFIX"
 
       - name: Print Inputs and CI Suffix to Summary
+        if: vars.PRINT_DEBUG_INFO == 'true'
         run: |
           cat >> $GITHUB_STEP_SUMMARY << 'EOF'
           ## 🔍 CloudFormation CI Build - Debug Info
