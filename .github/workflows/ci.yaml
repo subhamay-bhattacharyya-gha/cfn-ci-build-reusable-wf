@@ -87,17 +87,17 @@ jobs:
       parameters-file: ${{ inputs.parameters-file }}
       template-file: ${{ inputs.template-file }}
 
-  # delete-cloudformation-stack:
-  #   # name: Delete CloudFormation Stack
-  #   # environment: ${{ inputs.environment }}
-  #   # concurrency:
-  #   #   group: ${{ github.workflow }}-ci
-  #   #   cancel-in-progress: true
-  #   needs: [generate-stack-suffix, deploy-cloudformation-stack]
-  #   uses: subhamay-bhattacharyya-gha/cfn-delete-wf/.github/workflows/cfn-delete.yaml@feature/GHA-0001-initial-release-cloudform
-  #   with:
-  #     # environment: ${{ inputs.environment }}
-  #     # aws-region: ${{ vars.AWS_REGION }}
-  #     # aws-account-id: ${{ vars.AWS_ACCOUNT_ID }}
-  #     # oidc-role-name: ${{ vars.AWS_OIDC_ROLE_NAME }}
-  #     stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
+  delete-cloudformation-stack:
+    # name: Delete CloudFormation Stack
+    # environment: ${{ inputs.environment }}
+    # concurrency:
+    #   group: ${{ github.workflow }}-ci
+    #   cancel-in-progress: true
+    needs: [generate-stack-suffix, deploy-cloudformation-stack]
+    uses: subhamay-bhattacharyya-gha/cfn-delete-wf/.github/workflows/cfn-delete.yaml@feature/GHA-0001-initial-release-cloudform
+    with:
+      # environment: ${{ inputs.environment }}
+      # aws-region: ${{ vars.AWS_REGION }}
+      # aws-account-id: ${{ vars.AWS_ACCOUNT_ID }}
+      # oidc-role-name: ${{ vars.AWS_OIDC_ROLE_NAME }}
+      stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
