@@ -42,7 +42,6 @@ jobs:
   generate-stack-suffix:
     name: Generate Stack Suffix
     runs-on: ubuntu-latest
-    environment: ci
     outputs:
       suffix: ${{ steps.generate.outputs.suffix }}
     steps:
