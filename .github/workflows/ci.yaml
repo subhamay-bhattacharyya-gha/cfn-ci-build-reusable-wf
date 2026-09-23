@@ -45,22 +45,11 @@ jobs:
           echo "suffix=$SUFFIX" >> $GITHUB_OUTPUT
           echo "Generated suffix: $SUFFIX"
 
-      - name: Debug - Check Environment Variables
-        if: vars.PRINT_DEBUG_INFO == 'true'
-        run: |
-          echo "=== Checking Input Values ==="
-          echo "environment: \`${{ vars.ENVIRONMENT }}\`"
-          echo "aws-region: \`${{ vars.AWS_REGION }}\`"
-          echo "aws-account-id: \`${{ vars.AWS_ACCOUNT_ID }}\`"
-          echo "oidc-role-name: \`${{ vars.AWS_OIDC_ROLE_NAME }}\`"
-          echo "cfn-templates-s3-bucket: \`${{ vars.CFN_TEMPLATES_S3_BUCKET }}\`"
-          echo "stack-name: \`${{ inputs.stack-name }}\`"
-
       - name: Print Inputs and CI Suffix to Summary
         if: vars.PRINT_DEBUG_INFO == 'true'
         run: |
           cat >> $GITHUB_STEP_SUMMARY << 'EOF'
-          ## 🔍 CloudFormation CI Build - Debug Info
+          ## 🔍 CloudFormation CI Build - Debug Info (`cfn-ci-build-reusable`)
 
           **Workflow File**: `.github/workflows/ci.yaml`
           **Organization**: `${{ github.repository_owner }}`
@@ -69,14 +58,14 @@ jobs:
           ### Workflow Inputs
           | Parameter | Value |
           |-----------|-------|
-          | Environment | ${{ vars.ENVIRONMENT }} |
-          | AWS Region | ${{ vars.AWS_REGION }} |
-          | AWS Account ID | ${{ vars.AWS_ACCOUNT_ID }} |
-          | OIDC Role Name | ${{ vars.AWS_OIDC_ROLE_NAME }} |
-          | S3 Bucket | ${{ vars.CFN_TEMPLATES_S3_BUCKET }} |
-          | Stack Name (Base) | ${{ inputs.stack-name }} |
-          | Template File | ${{ inputs.template-file }} |
-          | Parameters File | ${{ inputs.parameters-file }} |
+          | Environment | \`${{ vars.ENVIRONMENT }}\` |
+          | AWS Region | \`${{ vars.AWS_REGION }}\` |
+          | AWS Account ID | \`${{ vars.AWS_ACCOUNT_ID }}\` |
+          | OIDC Role Name | \`${{ vars.AWS_OIDC_ROLE_NAME }}\` |
+          | S3 Bucket | \`${{ vars.CFN_TEMPLATES_S3_BUCKET }}\` |
+          | Stack Name (Base) | \`${{ inputs.stack-name }}\` |
+          | Template File | \`${{ inputs.template-file }}\` |
+          | Parameters File | \`${{ inputs.parameters-file }}\` |
 
           ### Generated CI Suffix
           ```
