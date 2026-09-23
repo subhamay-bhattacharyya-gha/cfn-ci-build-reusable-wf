@@ -58,6 +58,10 @@ jobs:
           cat >> $GITHUB_STEP_SUMMARY << 'EOF'
           ## 🔍 CloudFormation CI Build - Debug Info
 
+          **Workflow File**: `.github/workflows/ci.yaml`
+          **Organization**: `${{ github.repository_owner }}`
+          **Repository**: `${{ github.repository }}`
+
           ### Workflow Inputs
           | Parameter | Value |
           |-----------|-------|
