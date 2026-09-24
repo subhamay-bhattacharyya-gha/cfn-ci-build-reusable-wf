@@ -1,51 +1,75 @@
-# GitHub Action Template Repository
+# GitHub  Workflow: ClouudFormation CI Build
 
-![Built with Copilot](https://img.shields.io/badge/Built_with-Copilot-brightgreen?logo=github)&nbsp;![Release](https://github.com/subhamay-bhattacharyya-gha/github-action-template/actions/workflows/release.yaml/badge.svg)&nbsp;![Commit Activity](https://img.shields.io/github/commit-activity/t/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Last Commit](https://img.shields.io/github/last-commit/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Release Date](https://img.shields.io/github/release-date/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Repo Size](https://img.shields.io/github/repo-size/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![File Count](https://img.shields.io/github/directory-file-count/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Issues](https://img.shields.io/github/issues/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Top Language](https://img.shields.io/github/languages/top/subhamay-bhattacharyya-gha/github-action-template)&nbsp;![Custom Endpoint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bsubhamay/06e35985280456b113298ed56c626e73/raw/github-action-template.json?)
+<!-- Row 1: Status - Most Important -->
+[![Release](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/actions/workflows/release.yaml/badge.svg)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![GitHub Action](https://img.shields.io/badge/GitHub-Action-blue?logo=github)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Issues](https://img.shields.io/github/issues/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/issues)&nbsp;[![Last Commit](https://img.shields.io/github/last-commit/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/commits)
 
-A Template GitHub Repository to be used to create a composite action.
+<!-- Row 2: Code Quality -->
+[![Top Language](https://img.shields.io/github/languages/top/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Commits](https://img.shields.io/github/commit-activity/t/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/commits)
 
-## Action Name
+<!-- Row 3: Tech Stack -->
+[![Terraform](https://img.shields.io/badge/Terraform-IaC-blueviolet?logo=terraform&logoColor=white)](https://www.terraform.io/)&nbsp;[![Built with Claude Code](https://img.shields.io/badge/Built_with-Claude_Code-D97757?logo=anthropic&logoColor=white)](https://claude.ai/)
 
-### Action Description
+<!-- Row 4: Repository Info -->
+[![Files](https://img.shields.io/github/directory-file-count/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Repo Size](https://img.shields.io/github/repo-size/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Release Date](https://img.shields.io/github/release-date/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/releases)
 
-This GitHub Action provides a reusable composite workflow that sets up Python and interacts with the GitHub API to post a comment on an issue, including a link to a created branch.
+<!-- Row 5: Custom Metrics -->
+[![Custom Endpoint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bsubhamay/23c1ca0fe4355707a9aacc88d297d4fe/raw/cfn-ci-build-reusable-wf.json)](https://gist.github.com/bsubhamay/23c1ca0fe4355707a9aacc88d297d4fe)
+
+A reusable GitHub Actions workflow for deploying and cleaning up CloudFormation stacks with random suffix generation for CI environments.
+
+## Workflow: CloudFormation CI Build
+
+### Workflow Description
+
+This reusable workflow automates the deployment and cleanup of AWS CloudFormation stacks. It generates a unique CI suffix to avoid stack name collisions, deploys the CloudFormation stack with specified templates and parameters, and automatically cleans up the stack after successful deployment.
+
+**Workflow Features:**
+
+- Automatic generation of unique 10-character random suffix for stack naming
+- Deploys CloudFormation stacks using the [cfn-deploy-wf](https://github.com/subhamay-bhattacharyya-gha/cfn-deploy-wf) workflow
+- Cleans up stacks using the [cfn-delete-wf](https://github.com/subhamay-bhattacharyya-gha/cfn-delete-wf) workflow on successful deployment
+- AWS OIDC authentication support for secure credential-less deployments
+- Support for nested CloudFormation templates via S3 bucket
 
 ---
 
 ## Inputs
 
-| Name           | Description         | Required | Default        |
-|----------------|---------------------|----------|----------------|
-| `input-1`      | Input description.  | No       | `default-value`|
-| `input-2`      | Input description.  | No       | `default-value`|
-| `input-3`      | Input description.  | No       | `default-value`|
-| `github-token` | GitHub token. Used for API authentication. | Yes | — |
+| Name                      | Description                                              | Required | Default |
+|---------------------------|----------------------------------------------------------|----------|---------|
+| `aws-region`              | AWS region for stack deployment                          | Yes      | —       |
+| `aws-account-id`          | AWS account ID for OIDC role assumption                  | Yes      | —       |
+| `oidc-role-name`          | AWS IAM role name for OIDC authentication                | Yes      | —       |
+| `cfn-templates-s3-bucket` | S3 bucket name for CloudFormation nested templates       | Yes      | —       |
+| `stack-name`              | Base CloudFormation stack name (suffix will be appended) | Yes      | —       |
+| `template-file`           | Path to CloudFormation template file in repository       | Yes      | —       |
+| `parameters-file`         | Path to CloudFormation parameters JSON file              | Yes      | —       |
 
 ---
 
 ## Example Usage
 
 ```yaml
-name: Example Workflow
+name: Deploy CloudFormation Stack
 
 on:
-  issues:
-    types: [opened]
+  push:
+    branches:
+      - feature/**
+    paths:
+      - 'templates/**'
 
 jobs:
-  example:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run Custom Action
-        uses: your-org/your-action-repo@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          input-1: your-value
-          input-2: another-value
-          input-3: something-else
+  deploy:
+    uses: subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/.github/workflows/ci.yaml@main
+    with:
+      aws-region: us-east-1
+      aws-account-id: '123456789012'
+      oidc-role-name: github-actions-role
+      cfn-templates-s3-bucket: my-cfn-templates-bucket
+      stack-name: my-vpc-stack
+      template-file: templates/vpc-networking.yaml
+      parameters-file: parameters/vpc-params.json
 ```
 
 ## License

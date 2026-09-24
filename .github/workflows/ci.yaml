@@ -1,0 +1,100 @@
+name: CloudFormation CI Build Workflow
+description: Deploy CloudFormation stacks with support for reuse across workflows
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: GitHub environment name
+        required: false
+        type: string
+        default: ci
+      stack-name:
+        description: CloudFormation stack name
+        required: true
+        type: string
+      template-file:
+        description: Path to CloudFormation template file
+        required: true
+        type: string
+      parameters-file:
+        description: Path to CloudFormation parameters file
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+  id-token: write
+
+# env:
+#   environment: ${{ inputs.environment }}
+
+jobs:
+  generate-stack-suffix:
+    name: Generate Stack Suffix
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    outputs:
+      suffix: ${{ steps.generate.outputs.suffix }}
+    steps:
+      - name: Generate random suffix
+        id: generate
+        run: |
+          SUFFIX=$(openssl rand -hex 5 | cut -c1-10)
+          echo "suffix=$SUFFIX" >> $GITHUB_OUTPUT
+          echo "Generated suffix: $SUFFIX"
+
+      - name: Print Inputs and CI Suffix to Summary
+        if: vars.PRINT_DEBUG_INFO == 'true'
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🔍 CloudFormation CI Build - Debug Info (`cfn-ci-build-reusable`)
+
+          ### Workflow Inputs
+          | Parameter | Value |
+          |-----------|-------|
+          | Environment | `${{ vars.AWS_ENVIRONMENT }}` |
+          | AWS Region | `${{ vars.AWS_REGION }}` |
+          | AWS Account ID | `${{ vars.AWS_ACCOUNT_ID }}` |
+          | OIDC Role Name | `${{ vars.AWS_OIDC_ROLE_NAME }}` |
+          | S3 Bucket | `${{ vars.CFN_TEMPLATES_S3_BUCKET }}` |
+          | Stack Name (Base) | `${{ inputs.stack-name }}` |
+          | Template File | `${{ inputs.template-file }}` |
+          | Parameters File | `${{ inputs.parameters-file }}` |
+
+          ### Generated CI Suffix
+          ```
+          ${{ steps.generate.outputs.suffix }}
+          ```
+
+          ### Final Stack Name
+          ```
+          ${{ inputs.stack-name }}-${{ steps.generate.outputs.suffix }}
+          ```
+          EOF
+
+  deploy-cloudformation-stack:
+    name: Deploy CloudFormation Stack
+    concurrency:
+      group: ${{ github.workflow }}-ci
+      cancel-in-progress: true
+    needs: generate-stack-suffix
+    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.0
+    with:
+      environment: ${{ inputs.environment }}
+      stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
+      parameters-file: ${{ inputs.parameters-file }}
+      template-file: ${{ inputs.template-file }}
+
+  delete-cloudformation-stack:
+    name: Delete CloudFormation Stack
+    concurrency:
+      group: ${{ github.workflow }}-ci
+      cancel-in-progress: true
+    needs: [generate-stack-suffix, deploy-cloudformation-stack]
+    uses: subhamay-bhattacharyya-gha/cfn-delete-wf/.github/workflows/cfn-delete.yaml@v1.0.0
+
+    with:
+      environment: ${{ inputs.environment }}
+      stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
