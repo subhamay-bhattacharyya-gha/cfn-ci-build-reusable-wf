@@ -21,10 +21,6 @@ on:
         description: IAM role name for OIDC authentication
         required: true
         type: string
-      cfn-template-s3-bucket-name:
-        description: S3 bucket name for nested CloudFormation templates
-        required: true
-        type: string
       stack-name:
         description: CloudFormation stack name
         required: true
@@ -74,7 +70,7 @@ jobs:
           | AWS Region | `${{ inputs.aws-region }}` |
           | AWS Account ID | `${{ inputs.aws-account-id }}` |
           | OIDC Role Name | `${{ inputs.oidc-role-name }}` |
-          | CloudFormation Template S3 Bucket | `${{ inputs.cfn-template-s3-bucket-name }}` |
+          | CloudFormation Template S3 Bucket | `${{ env.CFN_TEMPLATE_S3_BUCKET_NAME }}` |
           | Stack Name (Base) | `${{ inputs.stack-name }}` |
           | Template File | `${{ inputs.template-file }}` |
           | Parameters File | `${{ inputs.parameters-file }}` |
