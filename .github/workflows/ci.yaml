@@ -27,9 +27,6 @@ permissions:
   contents: read
   id-token: write
 
-# env:
-#   environment: ${{ inputs.environment }}
-
 jobs:
   generate-stack-suffix:
     name: Generate Stack Suffix
