@@ -9,18 +9,6 @@ on:
         required: false
         type: string
         default: ci
-      aws-region:
-        description: AWS region for deployment
-        required: true
-        type: string
-      aws-account-id:
-        description: AWS account ID for OIDC role assumption
-        required: true
-        type: string
-      oidc-role-name:
-        description: IAM role name for OIDC authentication
-        required: true
-        type: string
       stack-name:
         description: CloudFormation stack name
         required: true
@@ -66,11 +54,11 @@ jobs:
           ### Workflow Inputs
           | Parameter | Value |
           |-----------|-------|
-          | Environment | `${{ inputs.environment }}` |
-          | AWS Region | `${{ inputs.aws-region }}` |
-          | AWS Account ID | `${{ inputs.aws-account-id }}` |
-          | OIDC Role Name | `${{ inputs.oidc-role-name }}` |
-          | CloudFormation Template S3 Bucket | `${{ env.CFN_TEMPLATE_S3_BUCKET_NAME }}` |
+          | Environment | `${{ vars.AWS_ENVIRONMENT }}` |
+          | AWS Region | `${{ vars.AWS_REGION }}` |
+          | AWS Account ID | `${{ vars.AWS_ACCOUNT_ID }}` |
+          | OIDC Role Name | `${{ vars.AWS_OIDC_ROLE_NAME }}` |
+          | S3 Bucket | `${{ vars.CFN_TEMPLATE_S3_BUCKET_NAME }}` |
           | Stack Name (Base) | `${{ inputs.stack-name }}` |
           | Template File | `${{ inputs.template-file }}` |
           | Parameters File | `${{ inputs.parameters-file }}` |
@@ -92,7 +80,7 @@ jobs:
       group: ${{ github.workflow }}-ci
       cancel-in-progress: true
     needs: generate-stack-suffix
-    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@feature/GHA-0026-remove-redundant-s3-bucke
+    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.2
     with:
       environment: ${{ inputs.environment }}
       stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
