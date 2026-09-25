@@ -80,7 +80,7 @@ jobs:
       group: ${{ github.workflow }}-ci
       cancel-in-progress: true
     needs: generate-stack-suffix
-    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.1
+    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.2
     with:
       environment: ${{ inputs.environment }}
       stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
