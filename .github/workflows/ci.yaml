@@ -9,6 +9,22 @@ on:
         required: false
         type: string
         default: ci
+      aws-region:
+        description: AWS region for deployment
+        required: true
+        type: string
+      aws-account-id:
+        description: AWS account ID for OIDC role assumption
+        required: true
+        type: string
+      oidc-role-name:
+        description: IAM role name for OIDC authentication
+        required: true
+        type: string
+      cfn-template-s3-bucket-name:
+        description: S3 bucket name for nested CloudFormation templates
+        required: true
+        type: string
       stack-name:
         description: CloudFormation stack name
         required: true
@@ -54,11 +70,11 @@ jobs:
           ### Workflow Inputs
           | Parameter | Value |
           |-----------|-------|
-          | Environment | `${{ vars.AWS_ENVIRONMENT }}` |
-          | AWS Region | `${{ vars.AWS_REGION }}` |
-          | AWS Account ID | `${{ vars.AWS_ACCOUNT_ID }}` |
-          | OIDC Role Name | `${{ vars.AWS_OIDC_ROLE_NAME }}` |
-          | S3 Bucket | `${{ vars.CFN_TEMPLATES_S3_BUCKET }}` |
+          | Environment | `${{ inputs.environment }}` |
+          | AWS Region | `${{ inputs.aws-region }}` |
+          | AWS Account ID | `${{ inputs.aws-account-id }}` |
+          | OIDC Role Name | `${{ inputs.oidc-role-name }}` |
+          | CloudFormation Template S3 Bucket | `${{ inputs.cfn-template-s3-bucket-name }}` |
           | Stack Name (Base) | `${{ inputs.stack-name }}` |
           | Template File | `${{ inputs.template-file }}` |
           | Parameters File | `${{ inputs.parameters-file }}` |
