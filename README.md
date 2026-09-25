@@ -7,7 +7,7 @@
 [![Top Language](https://img.shields.io/github/languages/top/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Commits](https://img.shields.io/github/commit-activity/t/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/commits)
 
 <!-- Row 3: Tech Stack -->
-[![Terraform](https://img.shields.io/badge/Terraform-IaC-blueviolet?logo=terraform&logoColor=white)](https://www.terraform.io/)&nbsp;[![Built with Claude Code](https://img.shields.io/badge/Built_with-Claude_Code-D97757?logo=anthropic&logoColor=white)](https://claude.ai/)
+[![CloudFormation](https://img.shields.io/badge/CloudFormation-IaC-ff9900?logo=amazon&logoColor=white)](https://aws.amazon.com/cloudformation/)&nbsp;[![Built with Claude Code](https://img.shields.io/badge/Built_with-Claude_Code-D97757?logo=anthropic&logoColor=white)](https://claude.ai/)
 
 <!-- Row 4: Repository Info -->
 [![Files](https://img.shields.io/github/directory-file-count/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Repo Size](https://img.shields.io/github/repo-size/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)&nbsp;[![Release Date](https://img.shields.io/github/release-date/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf)](https://github.com/subhamay-bhattacharyya-gha/cfn-ci-build-reusable-wf/releases)

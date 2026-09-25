@@ -34,7 +34,7 @@ jobs:
   generate-stack-suffix:
     name: Generate Stack Suffix
     environment: ${{ inputs.environment }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       suffix: ${{ steps.generate.outputs.suffix }}
     steps:
@@ -80,7 +80,7 @@ jobs:
       group: ${{ github.workflow }}-ci
       cancel-in-progress: true
     needs: generate-stack-suffix
-    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.0
+    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.3.1
     with:
       environment: ${{ inputs.environment }}
       stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
