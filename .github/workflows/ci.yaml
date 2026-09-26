@@ -77,7 +77,7 @@ jobs:
       group: ${{ github.workflow }}-ci
       cancel-in-progress: true
     needs: generate-stack-suffix
-    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@feature/GHA-0026-remove-redundant-s3-bucke
+    uses: subhamay-bhattacharyya-gha/cfn-deploy-wf/.github/workflows/cfn-deploy.yaml@v1.4.0
     with:
       environment: ${{ inputs.environment }}
       stack-name: ${{ inputs.stack-name }}-${{ needs.generate-stack-suffix.outputs.suffix }}
